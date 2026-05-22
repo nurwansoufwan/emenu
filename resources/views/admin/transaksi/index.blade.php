@@ -1,97 +1,128 @@
 <x-app-layout>
-    <div class="space-y-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="space-y-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-                <h2 class="text-2xl font-black text-gray-800">Antrean Pesanan</h2>
-                <p class="text-sm text-gray-500 font-medium">Kelola dan proses pesanan masuk dari konsumen secara real-time.</p>
+                <h1 class="text-3xl font-black text-gray-900 leading-none">Pemesanan</h1>
+                <p class="text-sm text-gray-500 font-medium mt-2">Kelola antrean pesanan pelanggan secara real-time.</p>
             </div>
             <div class="flex items-center gap-3">
-                <div class="bg-white border border-gray-100 rounded-xl px-4 py-2 shadow-sm">
-                    <p class="text-[10px] font-bold text-gray-400 uppercase">Total Pesanan Hari Ini</p>
-                    <p class="text-lg font-black text-gray-900">{{ $transaksis->count() }}</p>
+                <div class="bg-white border-2 border-gray-100 rounded-3xl px-6 py-3 shadow-sm">
+                    <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Total Antrean</p>
+                    <p class="text-xl font-black text-gray-900">{{ $transaksis->where('status', 'pending')->count() }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+        @if(session('success'))
+        <div class="bg-blue-600 text-white px-6 py-4 rounded-3xl font-bold text-sm shadow-xl shadow-blue-900/20 animate-bounce">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-gray-50/50 border-b border-gray-100">
-                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Pelanggan</th>
-                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Menu Pesanan</th>
-                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center">Total Bayar</th>
-                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center">Status</th>
-                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-right">Aksi</th>
+                        <tr class="bg-gray-50 text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black">
+                            <th class="px-8 py-6">Meja & Pelanggan</th>
+                            <th class="px-8 py-6">Detail Pesanan</th>
+                            <th class="px-8 py-6 text-center">Total</th>
+                            <th class="px-8 py-6 text-center">Status</th>
+                            <th class="px-8 py-6 text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50">
                         @forelse($transaksis as $item)
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center font-bold text-sm">
-                                        {{ strtoupper(substr($item->nama_pelanggan, 0, 1)) }}
+                        <tr class="hover:bg-gray-50 transition-colors group">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-[#080d1a] text-white rounded-2xl flex items-center justify-center font-black text-lg shadow-lg">
+                                        {{ $item->meja }}
                                     </div>
                                     <div>
-                                        <p class="text-sm font-bold text-gray-800">{{ $item->nama_pelanggan }}</p>
-                                        <p class="text-[10px] text-gray-400 font-medium">{{ $item->created_at->format('H:i') }} WIB</p>
+                                        <p class="text-sm font-black text-gray-900 uppercase tracking-tight">{{ $item->nama_pelanggan }}</p>
+                                        <p class="text-[10px] text-gray-400 font-bold tracking-widest uppercase mt-1">{{ $item->created_at->format('H:i') }} WIB</p>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4">
-                                <p class="text-sm text-gray-600 font-medium line-clamp-1">{{ $item->menu_pesanan }}</p>
+                            <td class="px-8 py-6">
+                                <div class="space-y-1">
+                                    @if(is_array($item->menu_pesanan))
+                                        @foreach($item->menu_pesanan as $menu)
+                                        <div class="text-xs">
+                                            <span class="font-bold text-gray-800">{{ $menu['quantity'] }}x {{ $menu['name'] }}</span>
+                                            @if(isset($menu['options']) && !empty($menu['options']))
+                                                <span class="text-[10px] text-gray-400 italic">
+                                                    ({{ collect($menu['options'])->map(fn($v, $k) => "$k: $v")->implode(', ') }})
+                                                </span>
+                                            @endif
+                                        </div>
+                                        @endforeach
+                                    @else
+                                        <p class="text-xs text-gray-600 font-medium">{{ $item->menu_pesanan }}</p>
+                                    @endif
+
+                                    @if(isset($item->catatan) && !empty($item->catatan))
+                                        <div class="text-[11px] bg-amber-50 text-amber-800 px-3 py-1.5 rounded-xl border border-amber-100 mt-2.5 font-bold inline-block leading-relaxed">
+                                            📝 Catatan: "{{ $item->catatan }}"
+                                        </div>
+                                    @endif
+                                </div>
                             </td>
-                            <td class="px-6 py-4 text-center">
-                                <p class="text-sm font-black text-gray-900">Rp {{ number_format($item->jumlah, 0, ',', '.') }}</p>
+                            <td class="px-8 py-6 text-center">
+                                <p class="text-sm font-black text-blue-600 italic">Rp {{ number_format($item->jumlah, 0, ',', '.') }}</p>
                             </td>
-                            <td class="px-6 py-4 text-center">
+                            <td class="px-8 py-6 text-center">
                                 @if($item->status == 'pending')
-                                    <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-full bg-orange-50 text-orange-500 border border-orange-100">
+                                    <span class="px-4 py-1.5 text-[9px] font-black uppercase rounded-full bg-orange-50 text-orange-500 border border-orange-100 tracking-widest">
                                         Pending
                                     </span>
                                 @elseif($item->status == 'success')
-                                    <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
-                                        Selesai
+                                    <span class="px-4 py-1.5 text-[9px] font-black uppercase rounded-full bg-green-50 text-green-600 border border-green-100 tracking-widest">
+                                        Success
                                     </span>
                                 @else
-                                    <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-full bg-red-50 text-red-600 border border-red-100">
-                                        Gagal
+                                    <span class="px-4 py-1.5 text-[9px] font-black uppercase rounded-full bg-red-50 text-red-600 border border-red-100 tracking-widest">
+                                        Failed
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 text-right">
+                            <td class="px-8 py-6 text-right">
                                 <div class="flex justify-end gap-2">
                                     @if($item->status == 'pending')
-                                        <form action="{{ route('admin.transaksi.update', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
+                                        <form action="{{ route('admin.transaksi.update', $item->id) }}" method="POST" class="inline">
+                                            @csrf @method('PUT')
                                             <input type="hidden" name="status" value="success">
-                                            <button type="submit" class="px-4 py-1.5 bg-[#080d1a] text-white rounded-lg text-[10px] font-bold hover:bg-blue-700 transition shadow-sm">
-                                                PROSES
+                                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-emerald-900/20">
+                                                Terima Pesanan
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('admin.transaksi.update', $item->id) }}" method="POST" class="inline">
+                                            @csrf @method('PUT')
+                                            <input type="hidden" name="status" value="failed">
+                                            <button type="submit" class="bg-white border-2 border-red-100 text-red-500 hover:bg-red-50 px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95">
+                                                Cancel Pesanan
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('admin.transaksi.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="p-2 text-gray-300 hover:text-red-500 transition">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                             </button>
                                         </form>
                                     @endif
-                                    
-                                    <form action="{{ route('admin.transaksi.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus pesanan ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="p-1.5 text-gray-400 hover:text-red-500 transition">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                        </button>
-                                    </form>
                                 </div>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-20 text-center">
+                            <td colspan="5" class="px-8 py-32 text-center">
                                 <div class="flex flex-col items-center">
-                                    <div class="p-4 bg-gray-50 rounded-full mb-4">
-                                        <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
+                                        <svg class="w-10 h-10 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                                     </div>
-                                    <p class="text-sm text-gray-400 font-bold">Belum ada pesanan masuk.</p>
-                                    <p class="text-xs text-gray-400 mt-1">Pesanan dari konsumen akan muncul di sini secara otomatis.</p>
+                                    <p class="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Antrean kosong.</p>
                                 </div>
                             </td>
                         </tr>

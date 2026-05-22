@@ -3,7 +3,7 @@
         <div class="mb-6 flex items-center justify-between">
             <div>
                 <h2 class="text-2xl font-bold text-gray-800">Tambah Catatan Laporan</h2>
-                <p class="text-sm text-gray-500">Masukkan data performa bulanan untuk analitik DullStore.</p>
+                <p class="text-sm text-gray-500">Masukkan data performa bulanan untuk analitik The Bilabola Space.</p>
             </div>
             <a href="{{ route('admin.laporan.index') }}" class="text-sm font-semibold text-gray-400 hover:text-gray-600 transition">
                 &larr; Kembali

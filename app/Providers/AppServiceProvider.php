@@ -19,7 +19,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Trust Proxies (Penting untuk Localtunnel)
+        \Illuminate\Support\Facades\Request::setTrustedProxies(
+            ['*'], 
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_FOR | 
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_HOST | 
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_PORT | 
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO
+        );
+
+        // Share pending orders count to sidebar
+        if (\Illuminate\Support\Facades\Schema::hasTable('transaksis')) {
+            \Illuminate\Support\Facades\View::share('pendingOrdersCount', \App\Models\Transaksi::where('status', 'pending')->count());
+        }
     }
 
     public const HOME = '/admin/dashboard';

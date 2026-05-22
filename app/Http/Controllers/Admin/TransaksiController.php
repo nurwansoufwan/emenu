@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin; // Namespace harus menunjuk ke folder Admin
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller; // Wajib diimport karena folder berbeda
+use App\Http\Controllers\Controller;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
@@ -10,7 +10,6 @@ class TransaksiController extends Controller
 {
     public function index()
     {
-        // Mengambil data terbaru agar pesanan baru muncul di atas
         $transaksis = Transaksi::latest()->get();
         return view('admin.transaksi.index', compact('transaksis'));
     }
@@ -19,7 +18,8 @@ class TransaksiController extends Controller
     {
         $request->validate([
             'nama_pelanggan' => 'required',
-            'menu_pesanan' => 'required', // Tambahkan ini agar sinkron dengan tabel
+            'meja' => 'required',
+            'menu_pesanan' => 'required',
             'jumlah' => 'required|numeric',
             'status' => 'required'
         ]);
@@ -28,15 +28,15 @@ class TransaksiController extends Controller
         return redirect()->back()->with('success', 'Transaksi berhasil dicatat!');
     }
 
-    // Tambahkan fungsi Update untuk memproses pesanan (Tombol PROSES)
     public function update(Request $request, $id)
     {
         $transaksi = Transaksi::findOrFail($id);
         $transaksi->update([
-            'status' => $request->status // Mengubah 'pending' menjadi 'success'
+            'status' => $request->status
         ]);
         
-        return redirect()->back()->with('success', 'Pesanan berhasil diproses!');
+        $msg = $request->status == 'success' ? 'Pesanan diterima!' : 'Pesanan ditolak.';
+        return redirect()->back()->with('success', $msg);
     }
 
     public function destroy(Transaksi $transaksi)

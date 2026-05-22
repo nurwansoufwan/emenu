@@ -3,7 +3,7 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
                 <h2 class="text-2xl font-bold text-gray-800">Analitik & Laporan</h2>
-                <p class="text-sm text-gray-500 font-medium">Ringkasan performa penjualan dan arus kas DullStore.</p>
+                <p class="text-sm text-gray-500 font-medium">Ringkasan performa penjualan dan arus kas The Bilabola Space.</p>
             </div>
             <div class="flex items-center gap-2">
                 <button class="px-4 py-2 bg-[#080d1a] text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-900/20 hover:bg-blue-700 transition">
@@ -95,7 +95,7 @@
                     </div>
                     <div class="pt-4 border-t border-gray-50">
                         <p class="text-[11px] text-gray-500 font-medium leading-relaxed italic">
-                            "Data mencakup performa penjualan harian DullStore berdasarkan status transaksi yang berhasil."
+                            "Data mencakup performa penjualan harian The Bilabola Space berdasarkan status transaksi yang berhasil."
                         </p>
                     </div>
                 </div>

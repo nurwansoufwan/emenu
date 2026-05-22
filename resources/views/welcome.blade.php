@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DullStore - Menu</title>
+    <title>The Bilabola Space - Menu</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 antialiased">
@@ -11,7 +11,7 @@
     <!-- Navbar untuk User/Scan QR -->
     <nav class="bg-white shadow-sm p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600">DullStore</h1>
+            <h1 class="text-2xl font-bold text-blue-600">The Bilabola Space</h1>
             @if (Route::has('login'))
                 <div>
                     @auth
@@ -37,7 +37,7 @@
                 @endforeach
             @else
                 <div class="col-span-full text-center py-20 bg-white rounded-2xl border-2 border-dashed">
-                    <p class="text-gray-400">Selamat datang di DullStore! Menu sedang disiapkan.</p>
+                    <p class="text-gray-400">Selamat datang di The Bilabola Space! Menu sedang disiapkan.</p>
                 </div>
             @endif
         </div>

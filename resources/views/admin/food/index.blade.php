@@ -33,7 +33,7 @@
                 @forelse($foods as $item)
                 <tr class="hover:bg-gray-50 transition-colors {{ !$item->is_available ? 'bg-gray-50/50' : '' }}">
                     <td class="px-6 py-4 flex items-center">
-                        <img src="{{ $item->image ? asset('storage/'.$item->image) : 'https://via.placeholder.com/150' }}" class="w-10 h-10 rounded-lg object-cover mr-4 shadow-sm {{ !$item->is_available ? 'grayscale' : '' }}">
+                        <img src="{{ $item->image ? (str_starts_with($item->image, 'http') ? $item->image : asset('storage/'.$item->image)) : 'https://via.placeholder.com/150' }}" class="w-10 h-10 rounded-lg object-cover mr-4 shadow-sm {{ !$item->is_available ? 'grayscale' : '' }}">
                         <div>
                             <p class="font-bold {{ $item->is_available ? 'text-gray-900' : 'text-gray-400' }}">{{ $item->name }}</p>
                             <p class="text-[10px] text-gray-400 truncate w-32">{{ $item->description }}</p>

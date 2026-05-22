@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <title>{{ $food->name }} | DullStore</title>
+    <title>{{ $food->name }} | The Bilabola Space</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
@@ -22,7 +22,7 @@
 
     <!-- Hero Image Area -->
     <div class="relative w-full aspect-[4/3] lg:aspect-video overflow-hidden">
-        <img src="{{ $food->image ? asset('storage/'.$food->image) : 'https://via.placeholder.com/800' }}" class="w-full h-full object-cover">
+        <img src="{{ $food->image ? (str_starts_with($food->image, 'http') ? $food->image : asset('storage/'.$food->image)) : 'https://via.placeholder.com/800' }}" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
     </div>
 
@@ -175,7 +175,7 @@
                 id: {{ $food->id }},
                 name: "{{ $food->name }}",
                 price: basePrice,
-                image: "{{ $food->image ? asset('storage/'.$food->image) : 'https://via.placeholder.com/150' }}",
+                image: "{{ $food->image ? (str_starts_with($food->image, 'http') ? $food->image : asset('storage/'.$food->image)) : 'https://via.placeholder.com/150' }}",
                 quantity: quantity,
                 options: selectedOptions,
                 timestamp: Date.now()

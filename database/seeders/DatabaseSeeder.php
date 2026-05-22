@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         // Memanggil seeder lain agar dijalankan secara berurutan
         $this->call([
-            UserSeeder::class,     // Seeder untuk Admin DullStore
+            UserSeeder::class,     // Seeder untuk Admin The Bilabola Space
             CategorySeeder::class, // Seeder untuk Menu/Kategori
         ]);
     }

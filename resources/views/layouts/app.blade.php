@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>DullStore Admin</title>
+    <title>The Bilabola Space Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -15,10 +15,10 @@
 
         <div class="p-5 flex items-center overflow-hidden border-b border-white/5 h-20">
             <div class="flex-shrink-0 w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-900/30">
-                D
+                B
             </div>
             <span class="ml-4 text-white font-bold tracking-wider text-base uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                DullStore
+                Bilabola
             </span>
         </div>
 
@@ -35,12 +35,20 @@
 
             <a href="{{ route('admin.transaksi.index') }}"
                 class="flex items-center py-3 px-3 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.transaksi.*') ? 'bg-white/10 text-white font-medium' : 'hover:bg-white/5 hover:text-white' }}">
-                <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
+                    @if(isset($pendingOrdersCount) && $pendingOrdersCount > 0)
+                        <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-[#080d1a]"></span>
+                    @endif
                 </div>
-                <span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap font-medium">Pesanan Masuk</span>
+                <div class="ml-4 flex items-center justify-between flex-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span class="whitespace-nowrap font-medium">Pesanan Masuk</span>
+                    @if(isset($pendingOrdersCount) && $pendingOrdersCount > 0)
+                        <span class="bg-red-500 text-[9px] font-black px-1.5 py-0.5 rounded-md text-white">{{ $pendingOrdersCount }}</span>
+                    @endif
+                </div>
             </a>
 
             <a href="{{ route('admin.category.index') }}"
@@ -103,7 +111,7 @@
     </aside>
     <div class="flex-1 flex flex-col min-w-0">
         <header class="bg-white/80 backdrop-blur-md h-20 flex items-center px-8 justify-between border-b border-gray-100 sticky top-0 z-10">
-            <div class="font-bold text-gray-800 text-lg uppercase tracking-tight">DullStore Management</div>
+            <div class="font-bold text-gray-800 text-lg uppercase tracking-tight">The Bilabola Space Management</div>
             <div class="flex items-center space-x-4">
                 <span class="text-sm font-medium text-gray-500 hidden sm:block">{{ Auth::user()->name }}</span>
                 <div class="w-10 h-10 bg-[#080d1a] rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white shadow-sm">

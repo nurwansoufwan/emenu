@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DullStore - Digital Menu</title>
+    <title>The Bilabola Space - Digital Menu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -12,7 +12,7 @@
     <!-- Header -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-black text-indigo-600 italic">DullStore.</h1>
+            <h1 class="text-2xl font-black text-indigo-600 italic">The Bilabola Space.</h1>
             <a href="/login" class="text-sm font-bold text-gray-500 hover:text-indigo-600">Admin Login</a>
         </div>
     </nav>
@@ -39,7 +39,7 @@
                             <!-- Image Placeholder -->
                             <div class="w-24 h-24 bg-gray-100 rounded-2xl flex-shrink-0 flex items-center justify-center">
                                 @if($product->image)
-                                    <img src="{{ asset('storage/' . $product->image) }}" class="w-full h-full object-cover rounded-2xl">
+                                    <img src="{{ str_starts_with($product->image, 'http') ? $product->image : asset('storage/' . $product->image) }}" class="w-full h-full object-cover rounded-2xl">
                                 @else
                                     <i class="fa-solid fa-utensils text-gray-300 text-2xl"></i>
                                 @endif

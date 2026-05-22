@@ -1,0 +1,2 @@
+# This file ensures that the images directory is tracked and exists.
+# Place your real QRIS image file here: public/images/qris.png

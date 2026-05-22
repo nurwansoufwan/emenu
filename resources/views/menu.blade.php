@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DullStore - Digital Menu</title>
+    <title>The Bilabola Space - Digital Menu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="px-4 py-3 flex justify-between items-center">
             <div>
-                <h1 class="text-xl font-bold text-orange-600 uppercase tracking-wider">DullStore</h1>
+                <h1 class="text-xl font-bold text-orange-600 uppercase tracking-wider">The Bilabola Space</h1>
                 <p class="text-xs text-gray-500">Meja Nomor: <span class="font-bold text-gray-800">{{ $table->number }}</span></p>
             </div>
             <button class="bg-gray-100 p-2 rounded-full active:scale-90 transition-transform">
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div class="shrink-0">
-                        <img src="{{ $product->image ? asset('storage/'.$product->image) : 'https://via.placeholder.com/150' }}" 
+                        <img src="{{ $product->image ? (str_starts_with($product->image, 'http') ? $product->image : asset('storage/'.$product->image)) : 'https://via.placeholder.com/150' }}" 
                              alt="{{ $product->name }}" 
                              class="w-24 h-24 object-cover rounded-xl shadow-inner border border-gray-50">
                     </div>

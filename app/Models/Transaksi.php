@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
-    protected $fillable = ['nama_pelanggan', 'menu_pesanan', 'jumlah', 'status', 'tanggal_transaksi'];
+    protected $fillable = ['nama_pelanggan', 'meja', 'menu_pesanan', 'jumlah', 'status', 'tanggal_transaksi', 'catatan'];
 
     protected $casts = [
-        'menu_pesanan' => 'array', // Jika kita simpan JSON, Laravel akan otomatis cast
+        'menu_pesanan' => 'array',
     ];
 }
