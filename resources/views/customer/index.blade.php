@@ -86,12 +86,14 @@
             <p class="text-[9px] font-bold text-blue-600 uppercase tracking-widest mt-1">Authentic Experience</p>
         </a>
         <div class="flex items-center space-x-3">
+            @if(!(auth()->check() && in_array(auth()->user()->role, ['admin', 'superadmin'])))
             <div class="relative group">
                 <button onclick="openCartSheet()" class="w-11 h-11 bg-white border border-gray-150 hover:bg-gray-50 text-[#080d1a] rounded-[1.2rem] flex items-center justify-center shadow-sm transform transition-all active:scale-90 relative">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                     <div id="cart-count" class="absolute -top-1 -right-1 bg-blue-600 text-white text-[8px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-md transition-all duration-300 scale-0 opacity-0">0</div>
                 </button>
             </div>
+            @endif
         </div>
     </header>
 
@@ -158,7 +160,7 @@
                     </div>
                 </a>
 
-                @if($item->is_available)
+                @if($item->is_available && !(auth()->check() && in_array(auth()->user()->role, ['admin', 'superadmin'])))
                 <button onclick="quickAdd({{ json_encode($item) }})" class="absolute bottom-10 right-0 w-9 h-9 bg-[#080d1a] text-white rounded-[1.1rem] flex items-center justify-center shadow-xl shadow-blue-900/20 active:scale-90 transition-all border-2 border-white hover:bg-blue-600">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
                 </button>
@@ -209,6 +211,7 @@
     </div>
 
     <!-- Floating Checkout Card -->
+    @if(!(auth()->check() && in_array(auth()->user()->role, ['admin', 'superadmin'])))
     <div id="floating-cart-card" class="fixed bottom-10 left-1/2 -translate-x-1/2 w-[calc(100%-4rem)] max-w-sm z-[60] transition-all duration-500 ease-out translate-y-40 opacity-0 pointer-events-none">
         <button onclick="openCartSheet()" class="w-full bg-[#080d1a] hover:bg-black text-white p-3 rounded-[2.5rem] shadow-[0_20px_50px_-10px_rgba(8,13,26,0.5)] flex items-center transition-all active:scale-95 border-2 border-white/5">
             <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-4 shadow-inner">
@@ -223,6 +226,7 @@
             </div>
         </button>
     </div>
+    @endif
 
     <!-- Cart Details Sheet -->
     <div id="cart-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[200] hidden transition-opacity duration-500" onclick="closeCartSheet()"></div>
@@ -286,7 +290,7 @@
 
             <!-- Profile Info -->
             <div class="bg-gray-50 rounded-3xl p-6 mb-8 border border-gray-100 flex items-center space-x-4">
-                <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-lg font-black shadow-lg">
+                <div class="w-12 h-12 {{ auth()->check() && in_array(auth()->user()->role, ['admin', 'superadmin']) ? 'bg-red-600' : 'bg-blue-600' }} rounded-2xl flex items-center justify-center text-white text-lg font-black shadow-lg">
                     @if(auth()->check())
                         {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                     @else
@@ -295,7 +299,11 @@
                 </div>
                 <div class="flex-1 overflow-hidden">
                     @if(auth()->check())
-                        <p class="text-[9px] font-black uppercase text-blue-600 tracking-widest leading-none mb-1">Customer Account</p>
+                        @if(in_array(auth()->user()->role, ['admin', 'superadmin']))
+                            <p class="text-[9px] font-black uppercase text-red-600 tracking-widest leading-none mb-1">Admin Account</p>
+                        @else
+                            <p class="text-[9px] font-black uppercase text-blue-600 tracking-widest leading-none mb-1">Customer Account</p>
+                        @endif
                         <h2 class="text-sm font-black text-gray-900 truncate leading-snug">{{ auth()->user()->name }}</h2>
                     @else
                         <p class="text-[9px] font-black uppercase text-gray-400 tracking-widest leading-none mb-1">Status Anda</p>
@@ -310,6 +318,13 @@
                     <span class="text-lg">📜</span>
                     <span class="text-xs font-bold text-gray-700 group-hover:text-gray-950 transition-colors">Order History (Riwayat)</span>
                 </button>
+
+                @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'superadmin']))
+                    <a href="{{ route('admin.dashboard') }}" class="w-full flex items-center space-x-4 p-4 rounded-2xl hover:bg-red-50 transition-colors text-left group">
+                        <span class="text-lg">⚙️</span>
+                        <span class="text-xs font-extrabold text-red-600 group-hover:text-red-700 transition-colors">Back to Admin Dashboard</span>
+                    </a>
+                @endif
 
                 @if(!auth()->check())
                     <a href="{{ route('customer.login') }}" class="w-full flex items-center space-x-4 p-4 rounded-2xl hover:bg-blue-50/50 hover:text-blue-600 transition-colors text-left group text-blue-600">

@@ -105,20 +105,26 @@
         </div>
 
         <!-- Quantity & Add Button -->
-        <div class="mt-12 flex items-center space-x-4">
-            <div class="flex items-center bg-gray-100 p-2 rounded-[2rem]">
-                <button onclick="updateQty(-1)" class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-900 shadow-sm active:scale-90 transition-all">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M20 12H4"/></svg>
-                </button>
-                <span id="qty-text" class="w-12 text-center text-lg font-black italic">1</span>
-                <button onclick="updateQty(1)" class="w-12 h-12 bg-[#080d1a] rounded-full flex items-center justify-center text-white shadow-lg active:scale-90 transition-all">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
+        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'superadmin']))
+            <div class="mt-12 p-6 bg-amber-50 border border-amber-100 rounded-3xl text-center">
+                <p class="text-xs font-bold text-amber-700">Akun Admin / Staff hanya diizinkan untuk melihat menu dan tidak dapat melakukan pemesanan.</p>
+            </div>
+        @else
+            <div class="mt-12 flex items-center space-x-4">
+                <div class="flex items-center bg-gray-100 p-2 rounded-[2rem]">
+                    <button onclick="updateQty(-1)" class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-900 shadow-sm active:scale-90 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M20 12H4"/></svg>
+                    </button>
+                    <span id="qty-text" class="w-12 text-center text-lg font-black italic">1</span>
+                    <button onclick="updateQty(1)" class="w-12 h-12 bg-[#080d1a] rounded-full flex items-center justify-center text-white shadow-lg active:scale-90 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
+                    </button>
+                </div>
+                <button onclick="addToCart()" id="add-btn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-[2.5rem] shadow-2xl shadow-blue-900/30 text-xs font-black uppercase tracking-widest transition-all active:scale-95">
+                    Add to Cart
                 </button>
             </div>
-            <button onclick="addToCart()" id="add-btn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-[2.5rem] shadow-2xl shadow-blue-900/30 text-xs font-black uppercase tracking-widest transition-all active:scale-95">
-                Add to Cart
-            </button>
-        </div>
+        @endif
     </div>
 
     <script>

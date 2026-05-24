@@ -34,6 +34,9 @@ Route::post('/order/checkout', [App\Http\Controllers\OrderController::class, 'ch
 */
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
+        if (auth()->user() && in_array(auth()->user()->role, ['admin', 'superadmin'])) {
+            return redirect()->route('admin.dashboard');
+        }
         return view('dashboard');
     })->name('dashboard');
 

@@ -28,7 +28,7 @@ class CategorySeeder extends Seeder
             'description' => 'Nasi goreng bumbu rempah tradisional khas Bilabola dengan suwiran ayam, bakso sapi, telur dadar iris, acar segar, dan kerupuk renyah.',
             'price' => 32000,
             'is_available' => true,
-            'image' => 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=600&auto=format&fit=crop',
+            'image' => 'menu/nasi_goreng.png',
             'options' => ['local_food']
         ]);
 
@@ -76,7 +76,7 @@ class CategorySeeder extends Seeder
             'description' => 'Espresso shot ganda klasik dari biji kopi single-origin Arabika pilihan dengan air murni, menghasilkan kopi bold aromatik.',
             'price' => 24000,
             'is_available' => true,
-            'image' => 'menu/signature_aren_latte.png',
+            'image' => 'menu/double_espresso.png',
             'options' => ['drink']
         ]);
 
@@ -85,7 +85,7 @@ class CategorySeeder extends Seeder
             'description' => 'Espresso arabika disiram ke atas jus alpukat mentega segar yang kental, disajikan dengan es krim vanilla premium di atasnya.',
             'price' => 38000,
             'is_available' => true,
-            'image' => 'menu/signature_aren_latte.png',
+            'image' => 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?q=80&w=600&auto=format&fit=crop',
             'options' => ['drink']
         ]);
 
@@ -106,7 +106,7 @@ class CategorySeeder extends Seeder
             'description' => 'Cokelat Belgian dark chocolate premium yang dilelehkan dengan susu segar creamy, rasa cokelat pekat dan mewah.',
             'price' => 30000,
             'is_available' => true,
-            'image' => 'menu/matcha_latte.png',
+            'image' => 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=600&auto=format&fit=crop',
             'options' => ['drink']
         ]);
 
@@ -118,7 +118,7 @@ class CategorySeeder extends Seeder
             'description' => 'Es krim soft-serve lembut dengan rasa teh hijau Matcha Jepang premium dari daerah Uji, rasa manis-gurih alami yang menenangkan.',
             'price' => 22000,
             'is_available' => true,
-            'image' => 'https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?q=80&w=600&auto=format&fit=crop',
+            'image' => 'menu/matcha_soft_serve.png',
             'options' => ['icecream']
         ]);
 
@@ -136,7 +136,7 @@ class CategorySeeder extends Seeder
             'description' => 'Es krim gelato khas Italia buatan tangan dengan pilihan rasa: Double Chocolate atau Salted Caramel, tekstur super padat dan creamy.',
             'price' => 28000,
             'is_available' => true,
-            'image' => 'https://images.unsplash.com/photo-1560008511-11c63416e52d?q=80&w=600&auto=format&fit=crop',
+            'image' => 'menu/premium_gelato.png',
             'options' => ['icecream']
         ]);
 
@@ -157,7 +157,7 @@ class CategorySeeder extends Seeder
             'description' => 'Croissant renyah dengan isian krim almond manis lembut, ditaburi irisan kacang almond panggang gurih dan gula halus.',
             'price' => 29000,
             'is_available' => true,
-            'image' => 'menu/butter_croissant.png',
+            'image' => 'menu/almond_croissant.png',
             'options' => []
         ]);
 
