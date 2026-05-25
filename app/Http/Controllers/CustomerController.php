@@ -121,8 +121,16 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
         ]);
+
+        // Check if email already exists
+        $existingUser = User::where('email', $request->email)->first();
+        if ($existingUser) {
+            return redirect()->route('customer.login')->withErrors([
+                'email' => 'Email ini sudah terdaftar. Silakan langsung masuk menggunakan email ini.'
+            ])->withInput();
+        }
 
         // Create new user with customer role and a dummy secure password
         User::create([

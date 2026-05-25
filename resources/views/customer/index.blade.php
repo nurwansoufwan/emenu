@@ -340,7 +340,7 @@
             @if(auth()->check() || session()->has('customer_guest'))
                 <form action="{{ route('customer.logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="w-full bg-red-50 text-red-500 hover:bg-red-100 py-4.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-colors active:scale-95 flex items-center justify-center space-x-2">
+                    <button type="submit" class="w-full bg-red-50 text-red-500 hover:bg-red-100 py-5.5 rounded-2xl text-xs font-black uppercase tracking-[0.2em] transition-colors active:scale-95 flex items-center justify-center space-x-2">
                         <span>🚪</span>
                         <span>Logout / Keluar</span>
                     </button>

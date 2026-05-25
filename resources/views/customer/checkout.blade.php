@@ -281,7 +281,7 @@
             </div>
 
             <!-- Action Button: Check Status -->
-            <button onclick="checkPaymentStatus()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5.5 rounded-[2rem] text-xs font-black uppercase tracking-[0.25em] shadow-xl shadow-blue-600/20 active:scale-95 transition-all">
+            <button onclick="checkPaymentStatus()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 rounded-[2rem] text-sm font-black uppercase tracking-[0.25em] shadow-xl shadow-blue-600/20 active:scale-95 transition-all">
                 Check Payment Status
             </button>
 
@@ -291,11 +291,11 @@
                 <ol class="space-y-4 text-[11px] text-gray-500 font-bold leading-relaxed">
                     <li class="flex items-start">
                         <span class="w-5 h-5 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center font-black mr-3 text-[9px] shrink-0 mt-0.5">1</span>
-                        <span>Screenshot (SS) dulu code QRIS di atas atau klik tombol <b>Download QR Code</b>.</span>
+                        <span>Screenshot (SS) dulu code QRIS di atas or klik tombol <b>Download QR Code</b>.</span>
                     </li>
                     <li class="flex items-start">
                         <span class="w-5 h-5 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center font-black mr-3 text-[9px] shrink-0 mt-0.5">2</span>
-                        <span>Buka aplikasi QR Payment di m-banking (BCA, Mandiri, dll) atau e-wallet (GoPay, OVO, Dana) Anda.</span>
+                        <span>Buka aplikasi QR Payment di m-banking (BCA, Mandiri, dll) or e-wallet (GoPay, OVO, Dana) Anda.</span>
                     </li>
                     <li class="flex items-start">
                         <span class="w-5 h-5 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center font-black mr-3 text-[9px] shrink-0 mt-0.5">3</span>
@@ -325,11 +325,11 @@
             <p class="text-xs text-gray-400 font-medium leading-relaxed px-2 mb-8">
                 Your order cannot be canceled after payment is successfully made. Please double-check your item list.
             </p>
-            <div class="space-y-3">
-                <button onclick="goToStep(3)" class="w-full bg-[#080d1a] hover:bg-black text-white py-4.5 rounded-2xl text-xs font-black uppercase tracking-[0.2em] active:scale-95 transition-all shadow-lg">
+            <div class="space-y-3.5">
+                <button onclick="goToStep(3)" class="w-full bg-[#080d1a] hover:bg-black text-white py-5.5 rounded-2xl text-[13px] font-black uppercase tracking-[0.2em] active:scale-95 transition-all shadow-lg">
                     Payment Now
                 </button>
-                <button onclick="triggerAlert(false)" class="w-full bg-white border-2 border-gray-100 text-gray-700 py-4.5 rounded-2xl text-xs font-black uppercase tracking-[0.2em] active:scale-95 transition-all hover:bg-gray-50">
+                <button onclick="triggerAlert(false)" class="w-full bg-white border-2 border-gray-100 text-gray-700 py-5.5 rounded-2xl text-[13px] font-black uppercase tracking-[0.2em] active:scale-95 transition-all hover:bg-gray-50">
                     Check Again
                 </button>
             </div>

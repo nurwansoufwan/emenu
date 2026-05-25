@@ -112,7 +112,6 @@
         <form action="{{ route('customer.guest.submit') }}" method="POST">
             @csrf
             <button type="submit" class="w-full bg-white border-2 border-gray-100 text-gray-700 py-5 rounded-2xl text-xs font-black uppercase tracking-[0.2em] active:scale-95 transition-all hover:bg-gray-50 flex items-center justify-center space-x-2">
-                <span>🚪</span>
                 <span>Masuk sebagai Guest</span>
             </button>
         </form>
