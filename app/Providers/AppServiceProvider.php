@@ -28,6 +28,17 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO
         );
 
+        // Auto-run migrations in production if they haven't been run yet
+        if (config('app.env') === 'production') {
+            try {
+                if (!\Illuminate\Support\Facades\Schema::hasTable('migrations')) {
+                    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+                }
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Auto-migration failed: ' . $e->getMessage());
+            }
+        }
+
         // Share pending orders count to sidebar
         if (\Illuminate\Support\Facades\Schema::hasTable('transaksis')) {
             \Illuminate\Support\Facades\View::share('pendingOrdersCount', \App\Models\Transaksi::where('status', 'pending')->count());
