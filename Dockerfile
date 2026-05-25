@@ -9,7 +9,9 @@ RUN apk add --no-cache \
     libxml2-dev \
     zip \
     unzip \
-    git
+    git \
+    nodejs \
+    npm
 
 RUN docker-php-ext-install pdo_mysql bcmath gd
 
@@ -24,6 +26,9 @@ COPY . .
 
 # Install dependencies Laravel
 RUN composer install --no-dev --optimize-autoloader
+
+# Install dan build frontend assets (Vite)
+RUN npm install && npm run build
 
 # Atur izin folder storage dan bootstrap agar bisa ditulis oleh server
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
