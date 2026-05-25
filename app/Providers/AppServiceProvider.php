@@ -28,32 +28,39 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO
         );
 
-        // Auto-run migrations and force HTTPS in production
-        if (config('app.env') === 'production') {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
+        // Only execute database-related bootstrap if not running in CLI/console (prevents build crashes)
+        if (!app()->runningInConsole()) {
+            // Auto-run migrations and force HTTPS in production
+            if (config('app.env') === 'production') {
+                \Illuminate\Support\Facades\URL::forceScheme('https');
 
+                try {
+                    if (!\Illuminate\Support\Facades\Schema::hasTable('migrations')) {
+                        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+                    }
+
+                    // Auto-seed if the database has no categories
+                    if (\Illuminate\Support\Facades\Schema::hasTable('categories') && \App\Models\Category::count() === 0) {
+                        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+                    }
+
+                    // Auto-link storage if link doesn't exist
+                    if (!file_exists(public_path('storage'))) {
+                        \Illuminate\Support\Facades\Artisan::call('storage:link');
+                    }
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error('Auto-migration/seeding/linking failed: ' . $e->getMessage());
+                }
+            }
+
+            // Share pending orders count to sidebar safely
             try {
-                if (!\Illuminate\Support\Facades\Schema::hasTable('migrations')) {
-                    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-                }
-
-                // Auto-seed if the database has no categories
-                if (\Illuminate\Support\Facades\Schema::hasTable('categories') && \App\Models\Category::count() === 0) {
-                    \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-                }
-
-                // Auto-link storage if link doesn't exist
-                if (!file_exists(public_path('storage'))) {
-                    \Illuminate\Support\Facades\Artisan::call('storage:link');
+                if (\Illuminate\Support\Facades\Schema::hasTable('transaksis')) {
+                    \Illuminate\Support\Facades\View::share('pendingOrdersCount', \App\Models\Transaksi::where('status', 'pending')->count());
                 }
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error('Auto-migration/seeding/linking failed: ' . $e->getMessage());
+                \Illuminate\Support\Facades\Log::warning('Could not share pendingOrdersCount: ' . $e->getMessage());
             }
-        }
-
-        // Share pending orders count to sidebar
-        if (\Illuminate\Support\Facades\Schema::hasTable('transaksis')) {
-            \Illuminate\Support\Facades\View::share('pendingOrdersCount', \App\Models\Transaksi::where('status', 'pending')->count());
         }
     }
 
