@@ -281,7 +281,7 @@
             </div>
 
             <!-- Action Button: Check Status -->
-            <button onclick="checkPaymentStatus()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 rounded-[2rem] text-sm font-black uppercase tracking-[0.25em] shadow-xl shadow-blue-600/20 active:scale-95 transition-all">
+            <button onclick="checkPaymentStatus()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-[2rem] text-base font-black uppercase tracking-[0.25em] shadow-xl shadow-blue-600/20 active:scale-95 transition-all">
                 Check Payment Status
             </button>
 
@@ -326,10 +326,10 @@
                 Your order cannot be canceled after payment is successfully made. Please double-check your item list.
             </p>
             <div class="space-y-3.5">
-                <button onclick="goToStep(3)" class="w-full bg-[#080d1a] hover:bg-black text-white py-5.5 rounded-2xl text-[13px] font-black uppercase tracking-[0.2em] active:scale-95 transition-all shadow-lg">
+                <button onclick="goToStep(3)" class="w-full bg-[#080d1a] hover:bg-black text-white py-5 rounded-2xl text-sm font-black uppercase tracking-[0.2em] active:scale-95 transition-all shadow-lg">
                     Payment Now
                 </button>
-                <button onclick="triggerAlert(false)" class="w-full bg-white border-2 border-gray-100 text-gray-700 py-5.5 rounded-2xl text-[13px] font-black uppercase tracking-[0.2em] active:scale-95 transition-all hover:bg-gray-50">
+                <button onclick="triggerAlert(false)" class="w-full bg-white border-2 border-gray-100 text-gray-700 py-5 rounded-2xl text-sm font-black uppercase tracking-[0.2em] active:scale-95 transition-all hover:bg-gray-50">
                     Check Again
                 </button>
             </div>
@@ -370,7 +370,7 @@
             <p class="text-xs text-gray-400 font-bold leading-relaxed px-4 mb-8" id="custom-alert-message">
                 Harap isi Nama Anda dan Nomor Meja terlebih dahulu!
             </p>
-            <button class="w-full bg-[#080d1a] hover:bg-black text-white py-4.5 rounded-2xl text-xs font-black uppercase tracking-[0.2em] active:scale-95 transition-all shadow-lg">
+            <button class="w-full bg-[#080d1a] hover:bg-black text-white py-5 rounded-2xl text-sm font-black uppercase tracking-[0.2em] active:scale-95 transition-all shadow-lg">
                 Mengerti
             </button>
         </div>
