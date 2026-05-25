@@ -36,8 +36,13 @@ class AppServiceProvider extends ServiceProvider
                 if (!\Illuminate\Support\Facades\Schema::hasTable('migrations')) {
                     \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
                 }
+
+                // Auto-seed if the database has no categories
+                if (\Illuminate\Support\Facades\Schema::hasTable('categories') && \App\Models\Category::count() === 0) {
+                    \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+                }
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error('Auto-migration failed: ' . $e->getMessage());
+                \Illuminate\Support\Facades\Log::error('Auto-migration/seeding failed: ' . $e->getMessage());
             }
         }
 
