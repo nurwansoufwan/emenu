@@ -28,8 +28,10 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO
         );
 
-        // Auto-run migrations in production if they haven't been run yet
+        // Auto-run migrations and force HTTPS in production
         if (config('app.env') === 'production') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+
             try {
                 if (!\Illuminate\Support\Facades\Schema::hasTable('migrations')) {
                     \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
