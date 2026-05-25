@@ -12,6 +12,41 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [CustomerController::class, 'welcomeRedirect'])->name('customer.welcome');
 Route::get('/menu', [CustomerController::class, 'index'])->name('customer.index');
 Route::get('/menu/{food}', [CustomerController::class, 'show'])->name('customer.show');
+Route::get('/debug-db', function() {
+    try {
+        $defaultConnection = config('database.default');
+        $driver = config("database.connections.{$defaultConnection}.driver");
+        $host = config("database.connections.{$defaultConnection}.host");
+        $database = config("database.connections.{$defaultConnection}.database");
+        
+        // Test connection
+        $pdo = \Illuminate\Support\Facades\DB::connection()->getPdo();
+        $isConnected = $pdo ? true : false;
+        
+        // Count users
+        $userCount = 0;
+        $users = [];
+        if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
+            $userCount = \App\Models\User::count();
+            $users = \App\Models\User::select('name', 'email', 'role')->get()->toArray();
+        }
+        
+        return [
+            'default_connection' => $defaultConnection,
+            'driver' => $driver,
+            'host' => $host,
+            'database' => $database,
+            'is_connected' => $isConnected,
+            'user_count' => $userCount,
+            'users' => $users
+        ];
+    } catch (\Exception $e) {
+        return [
+            'error' => $e->getMessage(),
+            'default_connection' => config('database.default')
+        ];
+    }
+});
 Route::post('/checkout', [App\Http\Controllers\Customer\CheckoutController::class, 'store'])->name('customer.checkout');
 Route::get('/customer/checkout', [CustomerController::class, 'checkoutForm'])->name('customer.checkout.view');
 
