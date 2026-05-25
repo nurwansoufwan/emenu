@@ -47,6 +47,25 @@ Route::get('/debug-db', function() {
         ];
     }
 });
+
+Route::get('/debug-env', function() {
+    $envKeys = array_keys($_ENV);
+    $serverKeys = array_keys($_SERVER);
+    
+    // Check specific keys of interest
+    $mysqlHostPresent = isset($_ENV['MYSQLHOST']) || isset($_SERVER['MYSQLHOST']);
+    $dbConnection = env('DB_CONNECTION');
+    $dbDatabase = env('DB_DATABASE');
+    
+    return [
+        'env_keys' => $envKeys,
+        'server_keys' => $serverKeys,
+        'mysql_host_present' => $mysqlHostPresent,
+        'DB_CONNECTION' => $dbConnection,
+        'DB_DATABASE' => $dbDatabase,
+        'APP_ENV' => env('APP_ENV')
+    ];
+});
 Route::post('/checkout', [App\Http\Controllers\Customer\CheckoutController::class, 'store'])->name('customer.checkout');
 Route::get('/customer/checkout', [CustomerController::class, 'checkoutForm'])->name('customer.checkout.view');
 
