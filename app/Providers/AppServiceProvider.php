@@ -41,8 +41,13 @@ class AppServiceProvider extends ServiceProvider
                 if (\Illuminate\Support\Facades\Schema::hasTable('categories') && \App\Models\Category::count() === 0) {
                     \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
                 }
+
+                // Auto-link storage if link doesn't exist
+                if (!file_exists(public_path('storage'))) {
+                    \Illuminate\Support\Facades\Artisan::call('storage:link');
+                }
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error('Auto-migration/seeding failed: ' . $e->getMessage());
+                \Illuminate\Support\Facades\Log::error('Auto-migration/seeding/linking failed: ' . $e->getMessage());
             }
         }
 
