@@ -12,6 +12,58 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [CustomerController::class, 'welcomeRedirect'])->name('customer.welcome');
 Route::get('/menu', [CustomerController::class, 'index'])->name('customer.index');
 Route::get('/menu/{food}', [CustomerController::class, 'show'])->name('customer.show');
+
+Route::get('/debug-storage', function() {
+    $storagePath = public_path('storage');
+    $exists = file_exists($storagePath);
+    $isLink = is_link($storagePath);
+    $target = $isLink ? readlink($storagePath) : null;
+    
+    $storageAppPublic = storage_path('app/public');
+    $storageAppPublicExists = file_exists($storageAppPublic);
+    
+    $menuFiles = [];
+    if (file_exists($storageAppPublic . '/menu')) {
+        $menuFiles = scandir($storageAppPublic . '/menu');
+    }
+    
+    $publicStorageMenuFiles = [];
+    if (file_exists($storagePath . '/menu')) {
+        $publicStorageMenuFiles = scandir($storagePath . '/menu');
+    }
+    
+    // Try to run storage:link manually to see output
+    $artisanOutput = '';
+    try {
+        if ($isLink) {
+            // Check if link is broken and try to fix
+            if (!$exists) {
+                unlink($storagePath);
+                \Illuminate\Support\Facades\Artisan::call('storage:link');
+                $artisanOutput = 'Deleted broken link and recreated link';
+            } else {
+                $artisanOutput = 'Link exists and is healthy';
+            }
+        } else if (file_exists($storagePath)) {
+            $artisanOutput = 'Path is a regular directory/file, cannot link';
+        } else {
+            \Illuminate\Support\Facades\Artisan::call('storage:link');
+            $artisanOutput = 'Linked successfully';
+        }
+    } catch (\Exception $e) {
+        $artisanOutput = 'Error linking: ' . $e->getMessage();
+    }
+    
+    return [
+        'public_storage_exists' => $exists,
+        'public_storage_is_link' => $isLink,
+        'public_storage_target' => $target,
+        'storage_app_public_exists' => $storageAppPublicExists,
+        'menu_files_in_storage' => $menuFiles,
+        'menu_files_in_public_storage' => $publicStorageMenuFiles,
+        'artisan_output' => $artisanOutput
+    ];
+});
 Route::post('/checkout', [App\Http\Controllers\Customer\CheckoutController::class, 'store'])->name('customer.checkout');
 Route::get('/customer/checkout', [CustomerController::class, 'checkoutForm'])->name('customer.checkout.view');
 
